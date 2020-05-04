@@ -23,6 +23,7 @@ export default {
   ** Global CSS
   */
   css: [
+    'normalize.css',
   ],
   /*
   ** Plugins to load before mounting the App
@@ -34,6 +35,10 @@ export default {
   */
   buildModules: [
   ],
+  // global styles
+  styleResources: {
+    scss: ['./assets/scss/global-variables.scss'],
+  },
   /*
   ** Nuxt.js modules
   */

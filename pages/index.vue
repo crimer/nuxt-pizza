@@ -1,72 +1,100 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        nuxt-pizza
-      </h1>
-      <h2 class="subtitle">
-        My sublime Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div>
+    <main class="hero">
+      <div class="container">
+        <div class="hero_inner">
+          <h1 class="hero__title">PERFECT PIZZA</h1>
+          <p class="hero__text">
+            Experience the taste of a perfect pizza at PizzaHouse, one of the
+            best restaurants!
+          </p>
+          <a class="hero__btn-menu">view our menu</a>
+        </div>
       </div>
-    </div>
+    </main>
+    <section class="products-section">
+      <div class="container">
+        <h1>Пицца</h1>
+        <div class="pizza-list">
+          <PizzaCard/>
+          <PizzaCard/>
+          <PizzaCard/>
+          <PizzaCard/>
+          <PizzaCard/>
+        </div>
+
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import PizzaCard from '@/components/products/PizzaCard.vue'
 export default {
   components: {
-    Logo
+    PizzaCard
   }
-}
+};
 </script>
 
-<style>
+<style lang="scss">
+
 .container {
   margin: 0 auto;
-  min-height: 100vh;
+  max-width: 70%;
+}
+.hero {
+  height: 70vh;
+  background-image: url("~assets/img/hero.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  color: white;
+  .container {
+    margin: 0 auto;
+    min-width: 70%;
+  }
+  &__inner {
+    min-width: 70%;
+  }
+  &__title {
+    text-transform: uppercase;
+    font-size: 70px;
+    margin: 0 0 30px 0;
+  }
+  &__text {
+    width: 380px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  &__btn-menu {
+    color: black;
+    background-color: #fee645;
+    user-select: none;
+    width: 240px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: background-color .3s ease;
+    &:hover {
+      background-color: darken($color: #fee645, $amount: 20);
+    }
+  }
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.pizza-list{
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  // grid-auto-rows: ;
 }
 </style>
