@@ -3,45 +3,67 @@
     <main class="hero">
       <div class="container">
         <div class="hero_inner">
-          <h1 class="hero__title">PERFECT PIZZA</h1>
+          <h1 class="hero__title">Лучшая пицца</h1>
           <p class="hero__text">
-            Experience the taste of a perfect pizza at PizzaHouse, one of the
-            best restaurants!
+            Испытайте вкус идеальной пиццы в Nuxt-pizza, одном из лучших ресторанов!
           </p>
-          <a class="hero__btn-menu">view our menu</a>
+          <a class="hero__btn-menu" @click="scrollTo('menu')">посмотреть меню</a>
         </div>
       </div>
     </main>
     <section class="products-section">
       <div class="container">
-        <h1>Пицца</h1>
+        <h1 ref="menu">Пицца</h1>
         <div class="pizza-list">
-          <PizzaCard/>
-          <PizzaCard/>
-          <PizzaCard/>
-          <PizzaCard/>
-          <PizzaCard/>
+          <PizzaCard v-for="(pizza,i) in pizzas" :key="i" :pizza="pizza"
+          :pizzaSizes="pizzaSizes" :pizzaDoughs="pizzaDoughs"/>
         </div>
-
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import PizzaCard from '@/components/products/PizzaCard.vue'
+import PizzaCard from "~~/components/products/PizzaCard.vue";
+import { mapState } from "vuex";
+
 export default {
   components: {
     PizzaCard
-  }
+  },
+  async asyncData({ error, store }) {
+    try {
+      await store.dispatch("getAllPizzas");
+      await store.dispatch("getPizzaSizes");
+      await store.dispatch("getPizzasDough");
+    } catch (err) {
+      console.log(err);
+      return error({
+        statusCode: 404,
+        message: "Пиццы не найдены или сервер не доступен"
+      });
+    }
+  },
+  computed: {
+    ...mapState(["pizzas","pizzaSizes","pizzaDoughs"])
+  },
+  methods: {
+    scrollTo(anchor){
+      const el = this.$refs[anchor];
+      const top = el.offsetTop;
+      window.scrollTo(0,top);
+    }
+  },
 };
 </script>
 
 <style lang="scss">
-
 .container {
   margin: 0 auto;
   max-width: 70%;
+}
+.products-section{
+  padding: 20px 0;
 }
 .hero {
   height: 70vh;
@@ -51,7 +73,7 @@ export default {
   background-size: cover;
   display: flex;
   align-items: center;
-  color: white;
+  color: $white-color;
   .container {
     margin: 0 auto;
     min-width: 70%;
@@ -72,7 +94,7 @@ export default {
   }
   &__btn-menu {
     color: black;
-    background-color: #fee645;
+    background-color: $yellow-color;
     user-select: none;
     width: 240px;
     height: 75px;
@@ -84,17 +106,16 @@ export default {
     font-size: 18px;
     font-weight: 700;
     border-radius: 10px;
-    transition: background-color .3s ease;
+    transition: background-color 0.3s ease;
     &:hover {
-      background-color: darken($color: #fee645, $amount: 20);
+      background-color: darken($color: $yellow-color, $amount: 20);
     }
   }
 }
 
-.pizza-list{
+.pizza-list {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  // grid-auto-rows: ;
 }
 </style>

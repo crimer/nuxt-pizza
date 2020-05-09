@@ -8,13 +8,13 @@
         <div class="header__nav">
           <ul class="header__links">
             <li class="header__nav-item">
-              <a class="header__nav-link" href="">Home</a>
+              <nuxt-link class="header__nav-link" to="/">Главная</nuxt-link>
             </li>
             <li class="header__nav-item">
-              <a class="header__nav-link" href="">About</a>
+              <nuxt-link class="header__nav-link" to="/about">О нас</nuxt-link>
             </li>
             <li class="header__nav-item">
-              <a class="header__nav-link" href="">Cart</a>
+              <nuxt-link class="header__nav-link" to="/">Корзина</nuxt-link>
             </li>
           </ul>
         </div>
