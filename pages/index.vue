@@ -1,22 +1,64 @@
 <template>
   <div>
-    <main class="hero">
-      <div class="container">
-        <div class="hero_inner">
-          <h1 class="hero__title">Лучшая пицца</h1>
-          <p class="hero__text">
-            Испытайте вкус идеальной пиццы в Nuxt-pizza, одном из лучших ресторанов!
-          </p>
-          <a class="hero__btn-menu" @click="scrollTo('menu')">посмотреть меню</a>
-        </div>
-      </div>
-    </main>
+    <section class="slider-section">
+      <client-only>
+        <swiper
+          class="swiper"
+          ref="mySwiper"
+          :options="swiperOption"
+          auto-update
+          auto-destroy
+          delete-instance-on-destroy
+          cleanup-styles-on-destroy
+        >
+          <swiper-slide class="swiper__slide slide_1">
+            <div class="container slide-content">
+              <h1 class="swiper__title">Лучшая пицца</h1>
+              <p class="swiper__text">
+                Испытайте вкус идеальной пиццы в Nuxt-pizza, одном из лучших
+                ресторанов!
+              </p>
+              <a class="swiper__btn-menu" @click="scrollTo('menu')">
+                посмотреть меню
+              </a>
+            </div>
+          </swiper-slide>
+          <swiper-slide class="swiper__slide slide_2">
+            <div class="container slide-content">
+              <h1 class="swiper__title">Лучшая пицца</h1>
+              <p class="swiper__text">
+                Испытайте вкус идеальной пиццы в Nuxt-pizza, одном из лучших
+                ресторанов!
+              </p>
+            </div>
+          </swiper-slide>
+          <swiper-slide class="swiper__slide slide_3">
+            <div class="container slide-content">
+              <h1 class="swiper__title">Акции, скидки и бонусы</h1>
+              <p class="swiper__text">
+                Испытайте вкус идеальной пиццы в Nuxt-pizza, одном из лучших
+                ресторанов!
+              </p>
+            </div>
+          </swiper-slide>
+          <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-next"></div>
+        </swiper>
+      </client-only>
+    </section>
+
     <section class="products-section">
       <div class="container">
-        <h1 ref="menu">Пицца</h1>
+        <CategoriesList />
+        <h1 ref="menu">🍕 Пицца</h1>
         <div class="pizza-list">
-          <PizzaCard v-for="(pizza,i) in pizzas" :key="i" :pizza="pizza"
-          :pizzaSizes="pizzaSizes" :pizzaDoughs="pizzaDoughs"/>
+          <PizzaCard
+            v-for="(pizza, i) in pizzas"
+            :key="i"
+            :pizza="pizza"
+            :pizzaSizes="pizzaSizes"
+            :pizzaDoughs="pizzaDoughs"
+          />
         </div>
       </div>
     </section>
@@ -24,12 +66,15 @@
 </template>
 
 <script>
+import "swiper/css/swiper.min.css";
 import PizzaCard from "~~/components/products/PizzaCard.vue";
+import CategoriesList from "~~/components/CategoriesList.vue";
 import { mapState } from "vuex";
 
 export default {
   components: {
-    PizzaCard
+    PizzaCard,
+    CategoriesList
   },
   async asyncData({ error, store }) {
     try {
@@ -44,42 +89,55 @@ export default {
       });
     }
   },
+  data() {
+    return {
+      swiperOption: {
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+      }
+    };
+  },
   computed: {
-    ...mapState(["pizzas","pizzaSizes","pizzaDoughs"])
+    ...mapState(["pizzas", "pizzaSizes", "pizzaDoughs"]),
   },
   methods: {
-    scrollTo(anchor){
+    scrollTo(anchor) {
       const el = this.$refs[anchor];
       const top = el.offsetTop;
-      window.scrollTo(0,top);
+      window.scrollTo(0, top);
     }
   },
+
 };
 </script>
 
 <style lang="scss">
-.container {
-  margin: 0 auto;
-  max-width: 70%;
-}
-.products-section{
+.products-section {
   padding: 20px 0;
 }
-.hero {
-  height: 70vh;
-  background-image: url("~assets/img/hero.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  color: $white-color;
-  .container {
-    margin: 0 auto;
-    min-width: 70%;
-  }
-  &__inner {
-    min-width: 70%;
+.swiper {
+  height: 80vh;
+  &__slide {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: $white-color;
+    .slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    &.slide_1 {
+      background-image: url("~assets/img/slider/slide_1.jpg");
+    }
+    &.slide_2 {
+      background-image: url("~assets/img/slider/slide_2.jpg");
+    }
+    &.slide_3 {
+      background-image: url("~assets/img/slider/slide_3.jpg");
+    }
   }
   &__title {
     text-transform: uppercase;
